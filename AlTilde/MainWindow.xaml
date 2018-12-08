@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AlTilde"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+		WindowStyle="None"
+        Title="MainWindow" Height="1" Width="1" Loaded="Window_Loaded" Opacity="0" ShowActivated="False" Closing="Window_Closing" ShowInTaskbar="False">
     <Grid>
         
     </Grid>
