@@ -58,6 +58,7 @@
     <Compile Include="System\SingleInstance.cs" />
     <Compile Include="System\Tray.cs" />
     <Compile Include="System\WinApi.cs" />
+    <Compile Include="Utils\WindowUtils.cs" />
     <Page Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

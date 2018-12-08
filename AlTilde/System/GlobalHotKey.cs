@@ -24,7 +24,7 @@ namespace AlTilde {
 		private static IntPtr MainWindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
 			if (msg == WinAPI.WM_HOTKEY) {
 				if (wParam.ToString() == AlTrideHotKey.ToString()) {
-					MessageBox.Show("?");
+					WindowUtils.SwitchProcessWindow();
 				}
 				handled = true;
 			}
