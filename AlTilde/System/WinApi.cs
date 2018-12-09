@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace AlTilde {
 	internal static class WinAPI {
@@ -25,7 +22,7 @@ namespace AlTilde {
 		public static extern IntPtr GetForegroundWindow();
 
 		[DllImport("user32")]
-		static extern bool IsWindow(IntPtr hWnd);
+		public static extern bool IsWindow(IntPtr hWnd);
 
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
@@ -54,7 +51,7 @@ namespace AlTilde {
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		private struct WINDOWINFO {
+		public struct WINDOWINFO {
 			public uint cbSize;
 			public RECT rcWindow;
 			public RECT rcClient;
@@ -76,30 +73,7 @@ namespace AlTilde {
 
 		[return: MarshalAs(UnmanagedType.Bool)]
 		[DllImport("user32.dll", SetLastError = true)]
-		private static extern bool GetWindowInfo(IntPtr hwnd, ref WINDOWINFO pwi);
-
-		static uint[] filterState = new uint[] {
-			0x08000000,	// WS_DISABLED
-			0x20000000	// WS_MINIMIZE
-		};
-
-		public static List<IntPtr> EnumerateProcessWindowHandles(int processId) {
-			var handles = new List<IntPtr>();
-
-			foreach (ProcessThread thread in Process.GetProcessById(processId).Threads) {
-				EnumThreadWindows(thread.Id, (hWnd, lParam) => { handles.Add(hWnd); return true; }, IntPtr.Zero);
-			}
-
-			return handles
-				.Where(handle => IsWindow(handle) && IsWindowVisible(handle) && GetWindowTextLength(handle) > 0)
-				.Where(handle => {
-					WINDOWINFO pwi = new WINDOWINFO();
-					GetWindowInfo(handle, ref pwi);
-
-					return filterState.Where(state => (pwi.dwStyle & state) > 0).Count() == 0;
-				})
-				.ToList();
-		}
+		public static extern bool GetWindowInfo(IntPtr hwnd, ref WINDOWINFO pwi);
 
 		[DllImport("user32.dll")]
 		public static extern bool SetForegroundWindow(IntPtr hWnd);
